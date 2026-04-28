@@ -58,3 +58,23 @@ def criar_categoria(nme: str = Form(...)):
     return RedirectResponse("/categorias", status_code=303)
 
 #Produtos
+@app.get("/produtos", response_class=HTMLResponse)
+def listar_produtos(request: Request):
+    db = SessionLocal()
+    produtos = db.query(Produto).all()
+    categorias = db.query(Categoria).all()
+    db.close()
+    return templates.TemplateResponse("produtos.html",{
+        "request": request,
+        "produtos": produtos,
+        "categorias": categorias
+
+    })
+
+@app.post("/produtos")
+def criar_produto(nome: str = Form(...), categoria_id: int = Form(...)):
+    db = SessionLocal()
+    db.add(Produto(nome=Produto, categoria_id=categoria_id)) 
+    db.commit()
+    db.close()
+    return RedirectResponse("/produtos", status_code=303)
