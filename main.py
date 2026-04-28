@@ -49,3 +49,12 @@ def listar_categorias(request: Request):
         "categorias": categorias
 
     })
+@app.post("/categorias")
+def criar_categoria(nme: str = Form(...)):
+    db = SessionLocal()
+    db.add(Categoria(nome=Categoria))
+    db.commit()
+    db.close()
+    return RedirectResponse("/categorias", status_code=303)
+
+#Produtos
