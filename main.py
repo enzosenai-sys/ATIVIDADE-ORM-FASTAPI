@@ -38,3 +38,14 @@ templates = Jinja2Templates(directory="templates")
 def listar_categorias(request: Request):
     return templates.TemplateResponse("home.html", {"request": request})
 
+#Categorias
+@app.get("/", response_class=HTMLResponse)
+def listar_categorias(request: Request):
+    db = SessionLocal()
+    categorias = db.query(Categoria).all()
+    db.close()
+    return templates.TemplateResponse("categorias.html", {
+        "request": request,
+        "categorias": categorias
+
+    })
