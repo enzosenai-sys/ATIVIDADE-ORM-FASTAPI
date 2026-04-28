@@ -1,5 +1,5 @@
 from fastapi import FastAPI, Request, Form
-from fastapi.responses import HTMLRespnse, RedirectResponse
+from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 
 from sqlalchemy import create_engine, Column, Integer, String, Foreignkey
@@ -32,3 +32,9 @@ Base.metadata.create_all(bind=engine)
 #App
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
+
+#Home
+@app.get("/", response_class=HTMLResponse)
+def listar_categorias(request: Request):
+    return templates.TemplateResponse("home.html", {"request": request})
+
